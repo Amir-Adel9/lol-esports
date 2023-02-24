@@ -1,7 +1,8 @@
 import express from 'express';
 import axios from 'axios';
-import LeagueMatch from '../../utilities/interfaces/leagueGameSchema';
 import LeagueInfo from '../../utilities/interfaces/leagueInfoSchema';
+import LeagueMatch from '../../utilities/interfaces/leagueGameSchema';
+import LeagueStanding from '../../utilities/interfaces/leagueStandingSchema';
 
 const worlds = express.Router();
 
@@ -29,7 +30,6 @@ const leaguesURL =
   'https://esports-api.lolesports.com/persisted/gw/getLeagues?hl=en-US';
 const worldsScheduleURL = `https://esports-api.lolesports.com/persisted/gw/getSchedule?hl=en-US&leagueId=${WORLDS_ID}`;
 const worldsStandingsURL = `https://esports-api.lolesports.com/persisted/gw/getStandings?hl=en-US&tournamentId=${WORLDS_TOUR_ID}`;
-
 worlds.get('/', async (req, res) => {
   const leagueData = await axios
     .get(leaguesURL, headers)
@@ -56,7 +56,14 @@ worlds.get('/', async (req, res) => {
     .then((res) => res.data.data.standings)
     .catch((error) => console.log(error));
 
-  const worldsStandings = standingsData;
+  const worldsStandings = standingsData.map(
+    (stage: LeagueStanding) =>
+      <LeagueStanding>{
+        stages: {
+          playInGroups: { groups: [{}, {}] },
+        },
+      }
+  );
 
   const worldsData = {
     info: worldsInfo,
@@ -65,21 +72,6 @@ worlds.get('/', async (req, res) => {
   };
 
   res.send(worldsData);
-  // res.send(
-  //   `${
-  //     worldsSchedule[75].match.teams[0].result.outcome != null
-  //       ? worldsSchedule[75].match.teams[0].result.outcome.toUpperCase()
-  //       : ''
-  //   } ${worldsSchedule[75].match.teams[0].code} ${
-  //     worldsSchedule[75].match.teams[0].result.gameWins
-  //   } -  ${worldsSchedule[75].match.teams[1].result.gameWins} ${
-  //     worldsSchedule[75].match.teams[1].code
-  //   } ${
-  //     worldsSchedule[75].match.teams[1].result.outcome != null
-  //       ? worldsSchedule[75].match.teams[1].result.outcome.toUpperCase()
-  //       : ''
-  //   }(${worldsSchedule[75].state})`
-  // );
 });
 
 export default worlds;

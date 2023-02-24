@@ -23,7 +23,7 @@ const headers = {
 };
 
 const LEC_ID = '98767991302996019';
-const LEC_TOUR_ID = '108998961191900167';
+const LEC_TOUR_ID = '109466537705744120';
 
 const leaguesURL =
   'https://esports-api.lolesports.com/persisted/gw/getLeagues?hl=en-US';
@@ -51,6 +51,10 @@ lec.get('/', async (req, res) => {
     return match.state === 'unstarted';
   });
 
+  const inProgressMatches = lecSchedule.filter((match: LeagueMatch) => {
+    return match.state === 'inProgress';
+  });
+
   const standingsData = await axios
     .get(lecStandingsURL, headers)
     .then((res) => res.data.data.standings)
@@ -64,7 +68,7 @@ lec.get('/', async (req, res) => {
     standings: lecStandings,
   };
 
-  res.send(lecData);
+  res.send(inProgressMatches);
 });
 
 export default lec;

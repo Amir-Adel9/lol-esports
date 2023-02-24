@@ -7,8 +7,6 @@ import worlds from './leagues/worlds';
 
 const router = express.Router();
 
-router.get('/', (req, res) => res.send('Main api route'));
-
 router.use('/worlds', worlds);
 router.use('/lec', lec);
 router.use('/lcs', lcs);

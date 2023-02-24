@@ -11,11 +11,12 @@ const headers = {
     'User-Agent':
       'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:101.0) Gecko/20100101 Firefox/101.0',
     Accept: '*/*',
+    'Access-Control-Allow-Origin': '*',
     'Accept-Language': 'en-US,en;q=0.5',
     'x-api-key': '0TvQnueqKa5mxJntVWt0w4LpLfEkrV1Ta8rQBb9Z',
     'Sec-Fetch-Dest': 'empty',
     'Sec-Fetch-Mode': 'cors',
-    'Sec-Fetch-Site': 'same-site',
+    'Sec-Fetch-Site': 'cross-site',
   },
   referrer: 'https://lolesports.com/',
   method: 'GET',
